@@ -17,7 +17,7 @@ pps = map makepair doubleprimes
 -- part 2: pow
 pow :: Int -> Integer
 pow 0 = 1
-pow n = pow (n-1) + pow(n-1)
+pow n = pow (n-1) + pow (n-1)
 
 powFast :: Int -> Integer
 powFast n = powMemo!!n
@@ -29,11 +29,22 @@ powMemo = [powFromMemo n | n <- [0..]]
 		| otherwise = powMemo!!(m-1) + powMemo!!(m-1)
 
 -- part 3: exp
+h :: Int -> Int -> Float
+h _ 0 = 1.0
+h z i = (z' / i') * h z (i-1)
+	where z' = fromIntegral z
+	      i' = fromIntegral i
+
 f :: Int -> Int -> Float
-f _ _ = 1.0
+f z k = sum [ h z n | n <- [0..k] ]
 
 fMT :: Int -> Int -> Float
-fMT _ _ = 1.0
+fMT z k = (fMemo!!z) !!k
+
+fMemo :: [[Float]]
+fMemo = [fFromMemoZ z | z <- [0..]]
+	where fFromMemoZ z =
+		1.0 : [ h z k + (fMemo!!z)!!(k-1) | k <- [1..]]
 
 -- part 4: Gödel numbers
 -- professional casting: int -> string -> char -> string -> int
