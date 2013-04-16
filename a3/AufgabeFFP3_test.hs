@@ -10,11 +10,11 @@ import AufgabeFFP3
 
 testsel1no1 = TestCase $ assertEqual ""
   ((selector1 . (filter 5) . transformer . generator) [(5,3),(2,7),(2,6),(10,100)])
-  [([(2,7),(2,6)],4,13)]
+  [([(2,6),(2,7)],4,13)]
 
 testsel1no2 = TestCase $ assertEqual ""
   ((selector1 . (filter 13) . transformer . generator) [(5,3),(2,7),(2,6),(10,100)])
-  [([(2,7),(10,100)],12,107)]
+  [([(10,100),(2,7)],12,107)]
 
 testsel1no3 = TestCase $ assertEqual ""
   ((selector1 . (filter 1) . transformer . generator) [(5,3),(2,7),(2,6),(10,100)])
@@ -22,11 +22,11 @@ testsel1no3 = TestCase $ assertEqual ""
 
 testsel1no4 = TestCase $ assertEqual ""
   ((selector1 . (filter 5) . transformer . generator) [(5,13),(2,7),(2,6),(10,100)])
-  [([(2,7),(2,6)],4,13),([(5,13)],5,13)]
+  [([(2,6),(2,7)],4,13),([(5,13)],5,13)]
 
 testsel2no1 = TestCase $ assertEqual ""
   ((selector2 . (filter 5) . transformer . generator) [(5,13),(2,7),(2,6),(10,100)])
-  [([(2,7),(2,6)],4,13)]
+  [([(2,6),(2,7)],4,13)]
 
 -- part 2: binomial coefficient
 
