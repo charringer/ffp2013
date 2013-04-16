@@ -5,5 +5,8 @@
 
 n=`ls -d1 a*|sort -n|tail -n1|tr -d a`
 
-scp a${n}/AufgabeFFP${n}*.hs g0:Gruppe/
-ssh g0 "cd Gruppe && hugs AufgabeFFP${n}_test.hs"
+account=$1
+[ -z "$account" ] && account=g0
+
+scp a${n}/AufgabeFFP${n}*.hs $account:Gruppe/
+ssh $account "cd Gruppe && hugs AufgabeFFP${n}_test.hs"
