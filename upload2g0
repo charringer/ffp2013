@@ -8,5 +8,6 @@ n=`ls -d1 a*|sort -n|tail -n1|tr -d a`
 account=$1
 [ -z "$account" ] && account=g0
 
+ssh $account "cd Gruppe && rm -f AufgabeFFP${n}*.hs"
 scp a${n}/AufgabeFFP${n}*.hs $account:Gruppe/
-ssh $account "cd Gruppe && hugs AufgabeFFP${n}_test.hs"
+ssh $account "cd Gruppe && runhugs AufgabeFFP${n}_test.hs"
