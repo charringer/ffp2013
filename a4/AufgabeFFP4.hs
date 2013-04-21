@@ -1,4 +1,6 @@
 module AufgabeFFP4 where
+import Control.Monad
+import Data.List
 
 -- Stack {{{1
 
@@ -44,13 +46,17 @@ type SolKnp = [Object]
 type NodeKnp = (Value, Weight, MaxWeight, [Object], SolKnp)
 
 succKnp :: NodeKnp -> [NodeKnp]
-succKnp = undefined
+succKnp (v, w, limit, objects, psol) = do
+  nextObject@(nextW, nextV) <- objects
+  when (w + nextW > limit) $ fail "too much weight"
+  return (v + nextV, w + nextW, limit, delete nextObject objects, nextObject : psol)
 
 goalKnp :: NodeKnp -> Bool
-goalKnp = undefined
+goalKnp (_, w, limit, _, _) = w == limit
 
 knapsack :: Objects -> MaxWeight -> (SolKnp, Value)
-knapsack = undefined
+knapsack objects limit = (psol, v)
+  where (v, _, _, _, psol):_ = searchDfs succKnp goalKnp (0, 0, limit, objects, [])
 
 -- Binomial coefficients {{{1
 

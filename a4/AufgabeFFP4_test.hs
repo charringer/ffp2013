@@ -7,7 +7,7 @@ import AufgabeFFP4
 
 testknp1 = TestCase $ assertEqual ""
   (knapsack [(2,3),(2,3),(3,4),(3,4),(5,6)] 10)
-  ([(2,3),(2,3),(3,4),(3,4)],14)
+  ([(3,4),(3,4),(2,3),(2,3)],14)
 
 testbin1 = TestCase $ assertEqual ""
   (binomDyn (4,2)) 6
