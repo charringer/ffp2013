@@ -1,6 +1,7 @@
 module AufgabeFFP4 where
 import Control.Monad
 import Data.List
+import Data.Array
 
 -- Stack {{{1
 
@@ -58,9 +59,36 @@ knapsack :: Objects -> MaxWeight -> (SolKnp, Value)
 knapsack objects limit = (psol, v)
   where (v, _, _, _, psol):_ = searchDfs succKnp goalKnp (0, 0, limit, objects, [])
 
+-- Table {{{1
+
+newtype Table a b = Tbl (Array a b)
+
+newTable :: Ix a => (a,a) -> [(a,b)] -> Table a b
+newTable bnds l = Tbl (array bnds l)
+
+findTable :: Ix a => Table a b -> a -> b
+findTable (Tbl a) i = a ! i
+
+updTable :: Ix a => (a,b) -> Table a b -> Table a b
+updTable p@(i,x) (Tbl a) = Tbl (a // [p])
+
+-- Dynamic programming {{{1
+
+dynamic :: Ix coord => (Table coord entry -> coord -> entry)
+  -> (coord, coord) -> Table coord entry
+dynamic compute bnds = t
+  where t = newTable bnds (map (\coord -> (coord, compute t coord)) (range bnds))
+
 -- Binomial coefficients {{{1
 
 binomDyn :: (Integer, Integer) -> Integer
-binomDyn = undefined
+binomDyn (n,k) = findTable (dynamic compute ((0,0), (bnd,bnd))) (n,k)
+  where bnd = max n k
+
+	compute tbl (m,l)
+	  | l == 0 = 1
+	  | l == m = 1
+	  | l >  m = 0
+	  | otherwise = findTable tbl (m-1,l-1) + findTable tbl (m-1,l)
 
 -- vim:sts=2 sw=2 fdm=marker:
