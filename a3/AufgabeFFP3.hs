@@ -18,7 +18,7 @@ generator x = droplast (generator_ x [])
 	where droplast y = (reverse.tail.reverse) y
 
 generator_ [] included_items = [included_items]
-generator_ (x:xs) included_items = (generator_ xs (x:included_items)) ++ (generator_ xs included_items)
+generator_ (x:xs) included_items = (generator_ xs (included_items ++ [x])) ++ (generator_ xs included_items)
 
 transformer :: Loads -> [LoadWghtVal]
 transformer x = map trans_sum x
