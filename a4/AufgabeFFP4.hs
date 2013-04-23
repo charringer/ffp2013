@@ -47,17 +47,34 @@ type SolKnp = [Object]
 type NodeKnp = (Value, Weight, MaxWeight, [Object], SolKnp)
 
 succKnp :: NodeKnp -> [NodeKnp]
-succKnp (v, w, limit, objects, psol) = do
-  nextObject@(nextW, nextV) <- objects
-  when (w + nextW > limit) $ fail "too much weight"
-  return (v + nextV, w + nextW, limit, delete nextObject objects, nextObject : psol)
+--succKnp (v, w, limit, objects, psol) = do
+--  nextObject@(nextW, nextV) <- objects
+--  when (w + nextW > limit) $ fail "too much weight"
+--  return (v + nextV, w + nextW, limit, delete nextObject objects, nextObject : psol)
+
+succKnp (_,_,_, [], _) = []
+succKnp (v, w, limit, (w_,v_):objects, psol)
+	| w + w_ > limit = restSuccs
+	| otherwise      = 
+        (v+v_, w+w_, limit, objects, (w_,v_):psol) : restSuccs
+		where restSuccs = succKnp (v, w, limit, objects, psol)
+
 
 goalKnp :: NodeKnp -> Bool
-goalKnp (_, w, limit, _, _) = w == limit
+goalKnp (v, w, limit, objects, psol)
+	= succKnp (v, w, limit, objects, psol) == []
 
 knapsack :: Objects -> MaxWeight -> (SolKnp, Value)
-knapsack objects limit = (psol, v)
-  where (v, _, _, _, psol):_ = searchDfs succKnp goalKnp (0, 0, limit, objects, [])
+knapsack objects limit = makeSol (maxValSol (head sols) (tail sols))
+    where
+	    sols = searchDfs succKnp goalKnp (0, 0, limit, objects, [])
+	    makeSol (v, _, _, _, psol) = (psol, v)
+		
+maxValSol currentBest [] = currentBest
+maxValSol currentBest (s:sols)
+    | (getVal s) > (getVal currentBest) =  maxValSol s sols
+	| otherwise   =  maxValSol currentBest sols
+	where getVal (v, _, _, _, _) = v
 
 -- Table {{{1
 
