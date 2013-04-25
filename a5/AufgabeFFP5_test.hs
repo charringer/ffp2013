@@ -1,0 +1,54 @@
+{-# LANGUAGE TemplateHaskell #-}
+
+import Test.HUnit
+import Data.Array
+
+import AufgabeFFP5
+
+-- fixtures
+
+a :: Array Int Int
+b :: Array Int Int
+c :: Array Int Int
+d :: Array Week String
+
+a = array (1,9) [(1,3),(2,(-5)),(3,0),(4,9),
+	  (5,2),(6,(-1)),(7,2),(8,(-5)),(9,1)]
+b = array (1,9) [(1,3),(2,(-1)),(3,(-2)),(4,9),
+	  (5,2),(6,(-1)),(7,2),(8,0),(9,(-1))]
+c = array (1,5) [(1,2),(2,3),(3,(-10)),(4,1),(5,4)]
+
+data Week = Mon | Tue | Wed | Thu | Fri | Sat | Sun deriving (Eq,Ord,Ix,Show)
+
+d = array (Tue,Sat) [(Wed,"work"),(Thu,"study"),(Tue,"study"),
+                     (Fri,"chill"),(Sat,"relax")]
+
+-- tests
+ 
+tests = TestList
+
+  ["mas a"  ~: 12 ~=? (mas a)
+
+  ,"amas a" ~: [(3,7),(4,7)]             ~=? (amas a)
+  ,"amas b" ~: [(1,7),(1,8),(4,7),(4,8)] ~=? (amas b)
+
+  ,"lmas a" ~: (3,7) ~=? (lmas a)
+  ,"lmas b" ~: (1,8) ~=? (lmas b)
+  ,"lmas c" ~: (1,2) ~=? (lmas c)
+  
+  ,"minIndex a (>5)"   ~: 4 ~=? (minIndex a (>5))
+  ,"minIndex a (<0)"   ~: 2 ~=? (minIndex a (<0))
+  ,"minIndex a (even)" ~: 3 ~=? (minIndex a (even))
+  ,"minIndex b (odd)"  ~: 1 ~=? (minIndex b (odd))
+  --TODO: minIndex b (>100) ->> error "No matching data"
+  
+  ,"minIndex d (==\"relax\")" ~: Sat ~=? (minIndex d (=="relax"))
+  ,"minIndex d (==\"work\" )" ~: Wed ~=? (minIndex d (=="work" ))
+  ,"minIndex d (==\"chill\")" ~: Fri ~=? (minIndex d (=="chill"))
+  ,"minIndex d (/=\"chill\")" ~: Tue ~=? (minIndex d (/="chill"))
+  --TODO: minIndex d (=="swim" ) ->> error "No matching index"
+
+  ]
+
+main = do
+  runTestTT tests
