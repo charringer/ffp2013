@@ -10,4 +10,4 @@ account=$1
 
 ssh $account "cd Gruppe && rm -f AufgabeFFP${n}*.hs"
 scp a${n}/AufgabeFFP${n}*.hs $account:Gruppe/
-ssh $account "cd Gruppe && runhugs AufgabeFFP${n}_test.hs"
+ssh $account "cd Gruppe && runhugs -F\"cpp -P -traditional\" AufgabeFFP${n}_test.hs"

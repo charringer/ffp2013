@@ -1,9 +1,29 @@
 {-# LANGUAGE TemplateHaskell #-}
 
+-- run with hugs:
+-- $ runghc -cpp THISFILE
+-- or with ghc:
+-- $ runhugs -F"cpp -P -traditional" THISFILE
+
 import Test.HUnit
 import Data.Array
+import Control.Exception
+
+#if defined(__GLASGOW_HASKELL__)
+import Test.HUnit.Tools
+#endif
 
 import AufgabeFFP5
+
+-- helpers
+
+#if defined(__GLASGOW_HASKELL__)
+instance Eq ErrorCall where
+  x == y = (show x) == (show y)
+
+assertError msg ex f =
+  assertRaises msg (ErrorCall ex) $ evaluate f
+#endif
 
 -- fixtures
 
@@ -40,13 +60,17 @@ tests = TestList
   ,"minIndex a (<0)"   ~: 2 ~=? (minIndex a (<0))
   ,"minIndex a (even)" ~: 3 ~=? (minIndex a (even))
   ,"minIndex b (odd)"  ~: 1 ~=? (minIndex b (odd))
-  --TODO: minIndex b (>100) ->> error "No matching data"
+#if defined(__GLASGOW_HASKELL__)
+  ,"minIndex b (>100)" ~: assertError "" "No matching data" (minIndex b (>100))
+#endif
   
   ,"minIndex d (==\"relax\")" ~: Sat ~=? (minIndex d (=="relax"))
-  ,"minIndex d (==\"work\" )" ~: Wed ~=? (minIndex d (=="work" ))
+  ,"minIndex d (==\"work\")"  ~: Wed ~=? (minIndex d (=="work" ))
   ,"minIndex d (==\"chill\")" ~: Fri ~=? (minIndex d (=="chill"))
   ,"minIndex d (/=\"chill\")" ~: Tue ~=? (minIndex d (/="chill"))
-  --TODO: minIndex d (=="swim" ) ->> error "No matching index"
+#if defined(__GLASGOW_HASKELL__)
+  ,"minIndex d (==\"swim\")"  ~: assertError "" "No matching index" (minIndex d (=="swim"))
+#endif
 
   ]
 
