@@ -3,7 +3,12 @@ module AufgabeFFP5 where
 import Data.Array
 
 mas :: Array Int Int -> Int
-mas _ = 0
+mas = mas' . elems
+  where
+    mas' []     = 0
+    mas' (x:xs) = max (mas' xs) (x + mrest xs)
+    mrest []      = 0
+    mrest (x:xs) = max 0 (x + mrest xs)
 
 amas :: Array Int Int -> [(Int,Int)]
 amas _ = []

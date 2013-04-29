@@ -48,6 +48,8 @@ d = array (Tue,Sat) [(Wed,"work"),(Thu,"study"),(Tue,"study"),
 tests = TestList
 
   ["mas a"  ~: 12 ~=? (mas a)
+  ,"mas b"  ~: 12 ~=? (mas b)
+  ,"mas c"  ~: 5 ~=? (mas c)
 
   ,"amas a" ~: [(3,7),(4,7)]             ~=? (amas a)
   ,"amas b" ~: [(1,7),(1,8),(4,7),(4,8)] ~=? (amas b)
