@@ -61,7 +61,7 @@ tests = TestList
   ,"minIndex a (even)" ~: 3 ~=? (minIndex a (even))
   ,"minIndex b (odd)"  ~: 1 ~=? (minIndex b (odd))
 #if defined(__GLASGOW_HASKELL__)
-  ,"minIndex b (>100)" ~: assertError "" "No matching data" (minIndex b (>100))
+  ,"minIndex b (>100)" ~: assertError "" "No matching index" (minIndex b (>100))
 #endif
   
   ,"minIndex d (==\"relax\")" ~: Sat ~=? (minIndex d (=="relax"))
