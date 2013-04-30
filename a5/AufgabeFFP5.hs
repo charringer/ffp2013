@@ -61,5 +61,4 @@ mi_combine _ = foldr (|||) Nothing
 
 minIndex :: (Ix a, Show a) => Array a b -> (b -> Bool) -> a
 minIndex array wf = case minidx of { Just a -> a; Nothing -> error "No matching index" }
-  where minidx = divideAndConquer mi_indiv mi_solve mi_divide mi_combine \
-    [ (i, wf (array ! i)) | i <- indices array ]
+  where minidx = divideAndConquer mi_indiv mi_solve mi_divide mi_combine [ (i, wf (array ! i)) | i <- indices array ]
