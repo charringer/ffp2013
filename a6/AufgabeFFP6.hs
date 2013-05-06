@@ -14,10 +14,18 @@ yield :: Array Int Int -> Int -> [Array Int (Int -> Int -> Int)]
 yield = yield_gtf
 
 yield_bt :: Array Int Int -> Int -> [Array Int (Int -> Int -> Int)]
-yield_bt = undefined
+yield_bt = yield_gtf -- FIXME!!!
 
 yield_gtf :: Array Int Int -> Int -> [Array Int (Int -> Int -> Int)]
-yield_gtf = undefined
+yield_gtf nums res = filt res $ transform nums $ generate nums
+
+generate nums = do
+  ops <- mapM (const [(+), (-), (*), div]) (indices nums)
+  return $ array (bounds nums) (zip (indices nums) ops)
+
+transform nums = map (\ops -> (ops, eval nums ops))
+
+filt res = map fst . filter ((res ==) . snd)
 
 instance Show (Array Int (Int->Int->Int)) where
   show = undefined
