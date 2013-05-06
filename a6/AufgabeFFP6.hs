@@ -2,6 +2,7 @@
 {-# LANGUAGE OverlappingInstances #-}
 module AufgabeFFP6 where
 import Data.Array
+import Data.List (intersperse)
 
 eval :: Array Int Int -> Array Int (Int -> Int -> Int) -> Int
 eval nums ops = eval' nums ops (snd (bounds nums))
@@ -27,5 +28,14 @@ transform nums = map (\ops -> (ops, eval nums ops))
 
 filt res = map fst . filter ((res ==) . snd)
 
+showFun f
+  | 1 `f` 2 ==  3 = "plus"
+  | 1 `f` 2 == -1 = "minus"
+  | 1 `f` 2 ==  2 = "times"
+  | 1 `f` 2 ==  0 = "div"
+
+-- hugs' Data.List is so ancient that it doesn't include intercalate
+intercalate xs xss = concat (intersperse xs xss)
+
 instance Show (Array Int (Int->Int->Int)) where
-  show = undefined
+  show = intercalate "," . map showFun . elems

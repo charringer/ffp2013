@@ -35,8 +35,8 @@ tests = TestList
 
   ,"show 1" ~: "plus" ~=? show op1
   ,"show 2" ~: "minus" ~=? show op2
-  ,"show 3" ~: "times" ~=? show op2
-  ,"show 4" ~: "div" ~=? show op3
+  ,"show 3" ~: "times" ~=? show op3
+  ,"show 4" ~: "div" ~=? show op4
   ]
 
 main = do
