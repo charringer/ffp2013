@@ -21,8 +21,9 @@ yield_gtf :: Array Int Int -> Int -> [Array Int (Int -> Int -> Int)]
 yield_gtf nums res = filt res $ transform nums $ generate nums
 
 generate nums = do
-  ops <- mapM (const [(+), (-), (*), div]) (indices nums)
-  return $ array (bounds nums) (zip (indices nums) ops)
+  ops <- mapM (const [(+), (-), (*), div]) (init (indices nums))
+  let (l,h) = bounds nums
+  return $ array (l,h-1) (zip (indices nums) ops)
 
 transform nums = map (\ops -> (ops, eval nums ops))
 
@@ -38,4 +39,4 @@ showFun f
 intercalate xs xss = concat (intersperse xs xss)
 
 instance Show (Array Int (Int->Int->Int)) where
-  show = intercalate "," . map showFun . elems
+  show = intercalate "-" . map showFun . elems

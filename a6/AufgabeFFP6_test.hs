@@ -31,7 +31,9 @@ tests = TestList
   ,"eval 2"  ~: 5 ~=? eval nums ops2
   ,"eval 3"  ~: -3 ~=? eval nums ops3
 
+  ,"yield 1" ~: all (== 6) (map (eval nums) (yield nums 6)) ~? "eval . yield != id"
   ,"yield 2" ~: null (yield nums 4) ~? "yield nums 4 == []"
+  ,"yield 3" ~: all (== 0) (map (eval nums) (yield nums 0)) ~? "eval . yield != id"
 
   ,"show 1" ~: "plus" ~=? show op1
   ,"show 2" ~: "minus" ~=? show op2
