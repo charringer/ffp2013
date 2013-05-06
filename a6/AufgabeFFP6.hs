@@ -4,7 +4,11 @@ module AufgabeFFP6 where
 import Data.Array
 
 eval :: Array Int Int -> Array Int (Int -> Int -> Int) -> Int
-eval = undefined
+eval nums ops = eval' nums ops (snd (bounds nums))
+
+eval' nums ops n
+  | n == fst (bounds nums) = nums ! n
+  | otherwise = (ops ! (n-1)) (eval' nums ops (n-1)) (nums ! n)
 
 yield :: Array Int Int -> Int -> [Array Int (Int -> Int -> Int)]
 yield = yield_gtf
