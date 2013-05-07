@@ -3,7 +3,6 @@
 module AufgabeFFP6 where
 import Data.Array
 import Data.List (intersperse)
-import Data.List
 import Data.Array
 import Numeric
 import Data.Char
