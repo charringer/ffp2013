@@ -43,6 +43,13 @@ tests = TestList
 
   ["fast 1" ~: ('w',9) ~=? fastStr8ts s1 ! (2,1)
 
+  ,"cols 1" ~: [[1,3],[2,4]] ~=? cols [[1,2],[3,4]]
+  ,"isstreet 1" ~: True ~=? isstreet [Two .. Nine]
+  ,"isstreet 2" ~: True ~=? isstreet [Five,Two,Six,Four,Three]
+  ,"isstreet 3" ~: False ~=? isstreet [One,Two,Four]
+  ,"compartments 1" ~: [[(White,One)],[(White,Three)]] ~=?
+    compartments [(Black,Blank),(White,One),(Black,Two),(Black,Three),(White,Three)]
+
   ]
 
 main = do
