@@ -29,6 +29,8 @@ b = convertField emptyStr8ts
 convertColor c
 	| c == White = 'w'
 	| c == Black = 'b'
+	
+convertDigit :: Digit -> Int
 convertDigit d
 	| d == One = 1
 	| d == Two = 2
@@ -66,7 +68,7 @@ isValidSubList l
 	| otherwise = (maximum nonBlankPart) - (minimum nonBlankPart) + 1 <= length l
 	where nonBlankPart = filter (/=0) l
 
-isBlank (c,d) = d == 0
+isBlank (c,d) = c == 'w' && d == 0
 
 makeSolutions field = foldl (++) [field] (map makeSolutions (expand field))
 
@@ -89,3 +91,6 @@ fastStr8ts field
 	where
 		field_ = convertField field
 		solutions = filter isComplete $ makeSolutions field_
+
+-- FIXME
+naiveStr8ts = fastStr8ts
