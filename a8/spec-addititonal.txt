@@ -1,0 +1,9 @@
+Deadline extended because of public holiday on May 21, 2013.
+
+Calls of "mkTV" shall also be considered for smaller problem instances, i.e.,
+for sublists of digits of the form "take i [1..9]" with 1<i<10; text of
+assignment has been adjusted accordingly. (05/15/13)
+
+In der Typdefinition von Expr dürfen beliebige natürliche Zahlen als Argument
+des Konstruktors Opd verwendet werden; die durch den Typnamen Digit suggerierte
+Einschränkung auf die Ziffernwerte 1 bis 9 entfällt hier. (05/17/2013). 
