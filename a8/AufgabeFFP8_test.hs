@@ -9,12 +9,22 @@ import Test.HUnit
 import Test.QuickCheck
 import Test.QuickCheck.All
 
+import Data.Char
+
 -- helpers
 
 eval :: Expr -> Integer
 eval (Opd d) = d
 eval (Opr P a b) = (eval a) + (eval b)
 eval (Opr T a b) = (eval a) * (eval b)
+
+extractDigits :: Expr -> Digits
+extractDigits (Opd n) =
+  map c2i (show n)
+    where
+      c2i c = toInteger $ (ord c) - (ord '0')
+extractDigits (Opr _ a b) =
+  (extractDigits a) ++ (extractDigits b)
 
 -- arbitrary types
 
@@ -36,9 +46,14 @@ prop_resultsEvalWell (Problem (dgts, tv)) = all evalWell results
     results = mkTV dgts tv
     evalWell expr = (eval expr) == tv
 
+prop_resultsKeepDigits (Problem (dgts, tv)) = all keepDigits results
+  where
+    results = mkTV dgts tv
+    keepDigits expr = (extractDigits expr) == dgts
+
 -- fixtures
 
-tv100expr1 = (Opr P (Opr P (Opr P (Opr P (Opr P (Opd 12) (Opd 34)) (Opr T (Opd 5) (Opd 6))) (Opd 8)) (Opd 7)) (Opd 9))
+tv100expr1 = (Opr P (Opr P (Opr P (Opr P (Opr P (Opd 12) (Opd 34)) (Opr T (Opd 5) (Opd 6))) (Opd 7)) (Opd 8)) (Opd 9))
 tv100expr2 = (Opr P (Opr P (Opr P (Opr P (Opr P (Opr P (Opd 1) (Opr T (Opd 2) (Opd 3))) (Opd 4)) (Opd 5)) (Opd 67)) (Opd 8)) (Opd 9))
 
 -- tests
@@ -46,7 +61,8 @@ tv100expr2 = (Opr P (Opr P (Opr P (Opr P (Opr P (Opr P (Opd 1) (Opr T (Opd 2) (O
 tests = TestList
   ["internal eval test 1" ~: 100 ~=? eval tv100expr1
   ,"internal eval test 2" ~: 100 ~=? eval tv100expr2
-
+  ,"internal extractDigits test 1" ~: digits ~=? extractDigits tv100expr1
+  ,"internal extractDigits test 2" ~: digits ~=? extractDigits tv100expr2
   ]
 
 main = do
