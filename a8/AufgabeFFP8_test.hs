@@ -63,6 +63,7 @@ tests = TestList
   ,"internal eval test 2" ~: 100 ~=? eval tv100expr2
   ,"internal extractDigits test 1" ~: digits ~=? extractDigits tv100expr1
   ,"internal extractDigits test 2" ~: digits ~=? extractDigits tv100expr2
+  ,"MaC has >= 2 solutions" ~: True ~=? length ((mkTV digits 100)) >= 2
   ]
 
 main = do
