@@ -63,7 +63,11 @@ tests = TestList
   ,"internal eval test 2" ~: 100 ~=? eval tv100expr2
   ,"internal extractDigits test 1" ~: digits ~=? extractDigits tv100expr1
   ,"internal extractDigits test 2" ~: digits ~=? extractDigits tv100expr2
-  ,"MaC has >= 2 solutions" ~: True ~=? length ((mkTV digits 100)) >= 2
+  ,"MaC has >= 2 solutions"   ~: True ~=? length ((mkTV digits 100)) >= 2
+  --example A: 400 == 123+45*6+7
+  ,"example A has a solution" ~: True ~=? length (mkTV [1..7] 400)   >= 1
+  ,"min.value of 1..9"        ~: True ~=? length (mkTV [1..9] 45)    >= 1
+  ,"min.value of 1..9 -1"     ~: True ~=? length (mkTV [1..9] 44)    == 0
   ]
 
 main = do
