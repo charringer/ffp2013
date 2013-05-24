@@ -8,15 +8,17 @@ type Word = String
 type First = Int
 type Last  = Int
 
-initToIndex word is = [ (length i - length word, length i) | i <- is ]
+initToIndex word is = [ (i - length word, i) | i <- is ]
 
 filterOverlaps ((a,b) : (c,d) : idxs)
   | b > c = filterOverlaps ((a,b) : idxs)
   | otherwise = (a,b) : filterOverlaps ((c,d) : idxs)
 filterOverlaps idxs = idxs
 
+endsToPairs word = filterOverlaps . initToIndex word
+
 occS :: Text -> Word -> [(First,Last)]
-occS txt word = filterOverlaps $ initToIndex word $ filter (isSuffixOf word) $ inits txt
+occS txt word = endsToPairs word $ map length $ filter (isSuffixOf word) $ inits txt
 
 occI :: Text -> Word -> [(First,Last)]
 occI _ _ = []
