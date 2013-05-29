@@ -66,8 +66,14 @@ tests = TestList
   ,"MaC has >= 2 solutions"   ~: True ~=? length ((mkTV digits 100)) >= 2
   --example A: 400 == 123+45*6+7
   ,"example A has a solution" ~: True ~=? length (mkTV [1..7] 400)   >= 1
-  ,"min.value of 1..9"        ~: True ~=? length (mkTV [1..9] 45)    >= 1
-  ,"min.value of 1..9 -1"     ~: True ~=? length (mkTV [1..9] 44)    == 0
+  ,"min.value of 1..9"        ~: True ~=? length (mkTV [1..9] 44)    >= 1
+  ,"min.value of 1..9 -1"     ~: True ~=? length (mkTV [1..9] 43)    == 0
+  ,"one value"                ~: [Opd 1]                  ~=? mkTV [1] 1
+  ,"two values, *"            ~: [Opr T (Opd 1) (Opd 2)]  ~=? mkTV [1,2] 2
+  ,"two values, +"            ~: [Opr P (Opd 1) (Opd 2)]  ~=? mkTV [1,2] 3
+  ,"two values, ."            ~: [Opd 12]                 ~=? mkTV [1,2] 12
+  ,"three values, .*"         ~: [Opr T (Opd 12) (Opd 3)] ~=? mkTV [1,2,3] 36
+  ,"three values, *."         ~: [Opr T (Opd 1) (Opd 23)] ~=? mkTV [1,2,3] 23
   ]
 
 main = do

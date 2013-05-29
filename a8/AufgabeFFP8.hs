@@ -26,6 +26,7 @@ genGroups dgts =
       grpFst i = allGrpngs (take i dgts) (drop i dgts)
       allGrpngs head tail = map (\x -> [head] ++ x) $ genGroups tail
 
+-- convert grouped lists of digits to lists of joined digits
 joinDigitGroups :: [[Digits]] -> [Digits]
 joinDigitGroups =
   map (map (sumUp . reverse))
@@ -33,8 +34,11 @@ joinDigitGroups =
       sumUp []     = 0
       sumUp (d:ds) = d + 10*(sumUp ds)
 
+-- throw away all 'Digits' (lists of digits) which smallest possible
+-- combination exceeds a target value. we found out that this is the sum of all
+-- elements ≠ 1, because 1 can be multiplied without rising the result.
 filterSumMax :: TargetValue -> [Digits] -> [Digits]
-filterSumMax tv = filter ((<= tv) . sum)
+filterSumMax tv = filter ((<= tv) . sum . (filter (==1)))
 
 multiplyGroups :: [[Digits]] -> [Expr]
 multiplyGroups =
