@@ -3,7 +3,7 @@
 # upload the latest solution
 # and start hugs on the test case file
 
-n=`ls -d1 a*|sort -n|tail -n1|tr -d a`
+n=`ls -d1 a*|sort -V|tail -n1|tr -d a`
 
 account=$1
 [ -z "$account" ] && account=g0

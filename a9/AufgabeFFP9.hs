@@ -15,7 +15,10 @@ filterOverlaps ((a,b) : (c,d) : idxs)
   | otherwise = (a,b) : filterOverlaps ((c,d) : idxs)
 filterOverlaps idxs = idxs
 
-endsToPairs word = filterOverlaps . initToIndex word
+modifyIndices :: [(First,Last)] -> [(First,Last)]
+modifyIndices = map (\(i,j) -> (i,j-1))
+
+endsToPairs word = modifyIndices . filterOverlaps . initToIndex word
 
 occS :: Text -> Word -> [(First,Last)]
 occS txt word = endsToPairs word $ map length $ filter (isSuffixOf word) $ inits txt
