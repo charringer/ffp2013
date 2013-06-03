@@ -38,7 +38,7 @@ joinDigitGroups =
 -- combination exceeds a target value. we found out that this is the sum of all
 -- elements ≠ 1, because 1 can be multiplied without rising the result.
 filterSumMax :: TargetValue -> [Digits] -> [Digits]
-filterSumMax tv = filter ((<= tv) . sum . (filter (==1)))
+filterSumMax tv = filter ((<= tv) . sum . (filter (/=1)))
 
 multiplyGroups :: [[Digits]] -> [Expr]
 multiplyGroups =
