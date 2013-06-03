@@ -14,8 +14,8 @@ import Test.QuickCheck
 -- tests
 
 tests = TestList
-  ["occS 1" ~: [(0,2), (2,4)] ~=? occS "aaaa" "aa"
-  ,"occS 2" ~: [(1,3)] ~=? occS "abab" "ba"
+  ["occS 1" ~: [(0,1), (2,3)] ~=? occS "aaaa" "aa"
+  ,"occS 2" ~: [(1,2)] ~=? occS "abab" "ba"
   ]
 
 main = do
